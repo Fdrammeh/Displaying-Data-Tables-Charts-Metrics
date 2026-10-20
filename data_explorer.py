@@ -101,14 +101,20 @@ st.caption("Data Loaded from JSONPlaceholder API")
 
 #Step6: Metrics row
 
-# TODO: Create 3 columns and display a st.metric() in each
+unique_cities = len(set(user["address"]["city"] for user in users))
+
+unique_companies = len(set(user["company"]["name"] for user in users))
+
 col1, col2, col3 = st.columns(3)
 
-with col1: st.metric("👥 Total Users", total_users)
+with col1:
+    st.metric("👥 Total Users", total_users)
 
-with col2: st.metric("🏙️ Most Common City", most_common_city, delta_color="off")
+with col2:
+    st.metric("🏙️ Unique Cities", unique_cities)
 
-with col3: st.metric("🌍 Avg. Latitude", f"{avg_lat:.2f}°")
+with col3:
+    st.metric("🏢 Unique Companies", unique_companies)
 # Use delta_color="off" for the city metric to avoid misleading colour coding
 
 
@@ -117,7 +123,9 @@ with col3: st.metric("🌍 Avg. Latitude", f"{avg_lat:.2f}°")
 # TODO: with st.sidebar: add a text_input to filter users by name
 # Store the value in name_filter
 with st.sidebar:
-    name_filter = st.text_input(" search users by name", placeholder = "Enter a name...")
+    name_filter = st.text_input(
+        " search users by name", 
+        placeholder = "Enter a name...")
 # TODO: Filter users:
 if name_filter:
     filtered_users = [
@@ -136,14 +144,17 @@ for user in filtered_users:
         "Name": user["name"], 
         "Email": user["email"], 
         "City": user["address"]["city"], 
-        "Company": user["company"]["name"] })
+        "Company": user["company"]["name"] 
+    })
 
 
-    st.dataframe( 
-        table_rows, 
-        width="stretch", 
-        hide_index=True 
-    )
+st.subheader("User Details")
+
+st.dataframe(
+        table_rows,
+        width="stretch",
+        hide_index=True
+)
 
 # ── Step 9: Bar chart ─────────────────────────────────────────────────────
 # TODO: 
