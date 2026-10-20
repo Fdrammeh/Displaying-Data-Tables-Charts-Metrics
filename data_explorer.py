@@ -119,11 +119,13 @@ with col3: st.metric("🌍 Avg. Latitude", f"{avg_lat:.2f}°")
 with st.sidebar:
     name_filter = st.text_input(" search users by name", placeholder = "Enter a name...")
 # TODO: Filter users:
-if name_filter: 
+if name_filter:
     filtered_users = [
-        u for u in users 
-        if ...]
-else: filtered_users = users
+        u for u in users
+        if name_filter.lower() in u["name"].lower()
+    ]
+else:
+    filtered_users = users
 
 # ── Step 8: Data table ────────────────────────────────────────────────────
 # TODO: Build a list of flat dicts for display (name, email, city, company)
@@ -136,13 +138,14 @@ for user in filtered_users:
         "City": user["address"]["city"], 
         "Company": user["company"]["name"] })
 
-# TODO: st.dataframe(table_rows, use_container_width=True, hide_index=True)
+
     st.dataframe( 
         table_rows, 
-        use_container_width=True, 
+        width="stretch", 
         hide_index=True 
     )
 
 # ── Step 9: Bar chart ─────────────────────────────────────────────────────
 # TODO: 
-st.subheader and st.bar_chart(city_counts)
+st.subheader("Users per City")
+st.bar_chart(city_counts)
